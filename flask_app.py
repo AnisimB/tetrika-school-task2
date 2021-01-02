@@ -1,5 +1,5 @@
 
-# A very simple Flask Hello World app for you to get started with...
+
 from flask import render_template, flash, redirect, Flask, request, url_for
 
 from forms import LoginForm
@@ -15,7 +15,7 @@ app.config.from_object('config')
 @app.route('/')
 @app.route('/index')
 def index():
-    user = { 'nickname': 'User' } # выдуманный пользователь
+    user = { 'nickname': 'User' }
     return render_template("index.html", title = 'Home', user = user)
 
 
@@ -44,27 +44,27 @@ def upload():
             with open(fullpath, newline='') as csvfile:
                 reader = csv.reader(csvfile, delimiter=',')
                 #return str(reader)
-                rowlist = []
-                keylist = []
-                headlist = []
-                bodylist = []
+                rowlist = [] # хранит строки файла
+                keylist = [] # хранит ключи - Ранг
+                headlist = [] # хранит заголовки таблицы - первая строка файла
+                bodylist = [] # хранит остальные значения таблицы
                 for row in reader:
-                    rowlist.append(row)
+                    rowlist.append(row) # считываем весь файл
                 for i in range(len(rowlist)):
                     if i != 0:
-                        keylist.append(int(rowlist[i][0]))
+                        keylist.append(int(rowlist[i][0])) # копируем ключи - Ранг
 
-                keylist.sort()
+                keylist.sort() # сортируем
 
                 for i in range(len(rowlist[0])):
-                    headlist.append({'name': rowlist[0][i]})
+                    headlist.append({'name': rowlist[0][i]}) # копируем заголовки - шапку таблицы
 
-                for i in range(len(keylist)):
-                    for j in range(len(rowlist)):
-                        if j != 0:
-                            if int(rowlist[j][0]) == keylist[i]:
+                for i in range(len(keylist)): # перебираем ключи из отсортированного списка
+                    for j in range(len(rowlist)): # для каждого ключа перебираем строки
+                        if j != 0: # кроме шапки
+                            if int(rowlist[j][0]) == keylist[i]: # при совпадении
                                 bodylist.append([])
-                                for k in range(len(rowlist[j])):
+                                for k in range(len(rowlist[j])): # копируем значения
                                     bodylist[i].append({'value':rowlist[j][k]})
 
                 return render_template("output.html", title = 'Output', head = headlist, body = bodylist)
