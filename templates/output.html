@@ -1,0 +1,26 @@
+<!-- extend from base layout -->
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Output values:</h1>
+<div>
+    <table border="1" style="border-collapse:collapse;">
+        <thead>
+            <tr>
+                {% for headitem in head %}
+                <th>{{headitem.name}}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for str in body %}
+            <tr>
+                {% for bodyitem in str %}
+                    <td align=center>{{bodyitem.value}}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
